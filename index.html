@@ -44,7 +44,7 @@
         .p-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .p-box span { font-size: 50px; color: #444; }
 
-        .name-tag { font-size: 2rem; outline: none; color: #fff; }
+        .name-tag { font-size: 2rem; outline: none; color: #fff; display: block; min-height: 40px; }
 
         .container { width: 95%; max-width: 1400px; padding-bottom: 100px; }
         .grid-title { font-size: 3rem; margin: 60px 0 30px; text-align: center; border-bottom: 4px solid #ff0000; display: inline-block; padding: 0 30px; }
@@ -81,25 +81,25 @@
     <div class="stage">
         <div class="throne">
             <div class="p-box" onclick="pick(this)"><img id="img-k2"><span>2</span></div>
-            <div class="name-tag" id="txt-k2" contenteditable="false">FREE</div>
+            <div class="name-tag" id="txt-k2" contenteditable="false">100/-</div>
         </div>
         <div class="throne rank-1">
             <div class="p-box" style="width:160px; height:160px;" onclick="pick(this)"><img id="img-k1"><span>1</span></div>
-            <div class="name-tag" id="txt-k1" contenteditable="false" style="color:#ff0000;">KING</div>
+            <div class="name-tag" id="txt-k1" contenteditable="false" style="color:#ff0000;">150/-</div>
         </div>
         <div class="throne">
             <div class="p-box" onclick="pick(this)"><img id="img-k3"><span>3</span></div>
-            <div class="name-tag" id="txt-k3" contenteditable="false">FREE</div>
+            <div class="name-tag" id="txt-k3" contenteditable="false">80/-</div>
         </div>
     </div>
 
-    <center><div class="grid-title">GOLD (500/-)</div></center>
+    <center><div class="grid-title">GOLD (50/-)</div></center>
     <div class="container"><div class="grid" id="gold-grid"></div></div>
     
-    <center><div class="grid-title" style="border-color:#bdc3c7;">SILVER (200/-)</div></center>
+    <center><div class="grid-title" style="border-color:#bdc3c7;">SILVER (30/-)</div></center>
     <div class="container"><div class="grid" id="silver-grid"></div></div>
 
-    <center><div class="grid-title" style="border-color:#cd7f32;">BRONZE (100/-)</div></center>
+    <center><div class="grid-title" style="border-color:#cd7f32;">BRONZE (15/-)</div></center>
     <div class="container"><div class="grid" id="bronze-grid"></div></div>
 
     <input type="file" id="fileInp" accept="image/*" onchange="applyImg(event)">
@@ -122,13 +122,22 @@
                 const d = document.createElement('div');
                 d.className = `plate ${cls}`;
                 d.innerHTML = `<span id="${gid}-${i}" contenteditable="false">${price}</span>`;
-                // Logic: Jab edit shuru ho, agar default price hai toh chali jaye
+                
                 d.addEventListener('focusin', (e) => {
                     if(edit && e.target.innerText === price) e.target.innerText = "";
                 });
                 g.appendChild(d);
             }
         }
+
+        // King Slots auto-clear logic
+        document.querySelectorAll('.name-tag').forEach(tag => {
+            tag.addEventListener('focusin', (e) => {
+                if(edit && (e.target.innerText === "150/-" || e.target.innerText === "100/-" || e.target.innerText === "80/-")) {
+                    e.target.innerText = "";
+                }
+            });
+        });
 
         function pick(el) { if(edit) { activeTarget = el; document.getElementById('fileInp').click(); } }
 
@@ -160,18 +169,18 @@
                 document.querySelectorAll('[contenteditable]').forEach(el => d.txt[el.id] = el.innerText);
                 document.querySelectorAll('.p-box img').forEach(i => { if(i.src.includes('data:')) d.img[i.id] = i.src; });
                 localStorage.clear();
-                localStorage.setItem('KINGDOM_VAMPIRE_FINAL', JSON.stringify(d));
-                alert("KINGDOM UPDATED!");
+                localStorage.setItem('KINGDOM_VAMPIRE_FINAL_RATES', JSON.stringify(d));
+                alert("RATES UPDATED & SAVED!");
                 toggleAdmin();
             } catch(e) { alert("MEMORY FULL!"); }
         }
 
         window.onload = () => {
-            build('gold-grid', 10, 'gold', '500/-');
-            build('silver-grid', 15, 'silver', '200/-');
-            build('bronze-grid', 20, 'bronze', '100/-');
+            build('gold-grid', 10, 'gold', '50/-');
+            build('silver-grid', 15, 'silver', '30/-');
+            build('bronze-grid', 20, 'bronze', '15/-');
 
-            const s = localStorage.getItem('KINGDOM_VAMPIRE_FINAL');
+            const s = localStorage.getItem('KINGDOM_VAMPIRE_FINAL_RATES');
             if(!s) return;
             const data = JSON.parse(s);
             for(let id in data.txt) if(document.getElementById(id)) document.getElementById(id).innerText = data.txt[id];
