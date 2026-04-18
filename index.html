@@ -3,141 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KINGDOM 123 | RAGHAV EDITZ</title>
+    <title>THE KINGDOM PRO | RAGHAV EDITZ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto+Mono:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;700&display=swap');
         
+        :root {
+            --gold: linear-gradient(135deg, #ff9d00 0%, #ffeb3b 50%, #ff9d00 100%);
+            --silver: linear-gradient(135deg, #757f9a 0%, #d7dde8 50%, #757f9a 100%);
+            --bronze: linear-gradient(135deg, #804a00 0%, #cd7f32 50%, #804a00 100%);
+            --neon: #00f2ff;
+            --pink: #ff007f;
+        }
+
         body {
-            margin: 0; background: #0a0a0a; color: #fff; font-family: 'Roboto Mono', monospace;
-            display: flex; flex-direction: column; align-items: center; padding-bottom: 100px;
+            margin: 0; background: #050505; color: #fff; font-family: 'Poppins', sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* Top Bar */
-        .admin-bar {
-            position: sticky; top: 0; width: 100%; background: #1a1a1a; padding: 15px 0;
-            display: flex; justify-content: center; gap: 15px; z-index: 1000; border-bottom: 2px solid #333;
+        /* Header UI */
+        .header-ui {
+            width: 100%; padding: 15px 0; background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-around; align-items: center;
         }
-        .btn {
-            padding: 10px 25px; border: none; border-radius: 5px; font-weight: 900; 
-            cursor: pointer; text-transform: uppercase; font-family: 'Oswald', sans-serif;
-        }
-        #edit-btn { background: #ffcc00; color: #000; }
-        #save-btn { background: #28a745; color: #fff; display: none; }
 
-        header { margin: 50px 0; text-align: center; }
-        h1 { font-family: 'Oswald', sans-serif; font-size: 3.5rem; color: #ffcc00; margin: 0; }
-        .tagline { color: #555; letter-spacing: 5px; font-size: 12px; }
+        .logo-text { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.5); }
 
-        /* Kings Section */
-        .kings-container { display: flex; gap: 15px; width: 90%; max-width: 900px; margin-bottom: 40px; }
-        .king-box {
-            flex: 1; background: #151515; border: 1px solid #333; padding: 25px 10px;
-            text-align: center; border-radius: 10px;
+        .btn-admin {
+            background: transparent; color: #fff; border: 2px solid var(--pink);
+            padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 0 10px var(--pink);
         }
-        .rank-1 { border: 2px solid #ffcc00; transform: scale(1.05); }
-        .rank-num { font-size: 2rem; display: block; margin-bottom: 10px; }
-        .king-name { font-size: 1.5rem; outline: none; color: #fff; text-transform: uppercase; }
+        .btn-admin.active { background: var(--pink); }
 
-        /* List Section */
-        .list-container { width: 90%; max-width: 800px; }
-        .section-header { 
-            font-family: 'Oswald', sans-serif; font-size: 1.5rem; padding: 10px;
-            margin-top: 30px; border-left: 5px solid #ffcc00; background: #111;
+        .btn-save {
+            background: var(--neon); color: #000; border: none; padding: 10px 25px;
+            border-radius: 5px; font-weight: 900; cursor: pointer; display: none;
+            box-shadow: 0 0 15px var(--neon);
         }
-        .row {
-            display: flex; align-items: center; background: #1a1a1a; 
-            margin: 5px 0; padding: 15px; border-radius: 5px; border: 1px solid #222;
-        }
-        .num { width: 50px; color: #ffcc00; font-weight: bold; font-size: 1.2rem; }
-        .name { flex-grow: 1; outline: none; font-size: 1.1rem; text-transform: uppercase; }
 
-        /* Editing State */
-        .editing .name, .editing .king-name { background: #333; padding: 2px 10px; border-radius: 4px; }
+        /* The Throne Section */
+        .stage { display: flex; align-items: flex-end; justify-content: center; gap: 15px; margin: 40px 0; width: 95%; }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 20px 10px; text-align: center; flex: 1;
+        }
+        .king-card { border: 2px solid #ffcc00; transform: scale(1.1); box-shadow: 0 0 20px rgba(255,204,0,0.2); }
+
+        .avatar-circle {
+            width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px;
+            border: 2px solid #333; overflow: hidden; background: #111;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
+
+        /* FIXED NAME EDITING */
+        .name-tag {
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem;
+            min-height: 25px; display: block; outline: none; padding: 5px;
+        }
+        .admin-on .name-tag { background: rgba(255,255,255,0.1); border-radius: 4px; border-bottom: 2px solid var(--neon); }
+
+        /* Grids */
+        .grid-section { width: 92%; max-width: 1200px; margin-bottom: 100px; }
+        .grid-title { 
+            font-family: 'Cinzel', serif; font-size: 1.2rem; margin: 30px 0 15px; 
+            letter-spacing: 2px; border-left: 4px solid var(--neon); padding-left: 10px;
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+
+        .plate {
+            height: 70px; border-radius: 10px; display: flex; align-items: center; 
+            padding: 0 10px; cursor: pointer; border: 1px solid rgba(0,0,0,0.2); position: relative;
+        }
+        .plate img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; display: none; margin-right: 10px; z-index: 2; }
+        .plate-name { z-index: 5; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.8rem; outline: none; flex-grow: 1; }
+
+        .gold { background: var(--gold); color: #3d2b1f; }
+        .silver { background: var(--silver); color: #222; }
+        .bronze { background: var(--bronze); color: #fff; }
+
+        input[type="file"] { display: none; }
     </style>
 </head>
-<body id="app">
+<body id="body">
 
-    <div class="admin-bar">
-        <button class="btn" id="edit-btn" onclick="toggleEdit()">EDIT: OFF</button>
-        <button class="btn" id="save-btn" onclick="saveData()">SAVE DATA</button>
-    </div>
-
-    <header>
-        <h1>THE KINGDOM</h1>
-        <div class="tagline">RAGHAV EDITZ LIVE</div>
-    </header>
-
-    <div class="kings-container">
-        <div class="king-box">
-            <span class="rank-num" style="color:#c0c0c0;">2</span>
-            <div class="king-name" id="k-2" contenteditable="false">EMPTY</div>
-        </div>
-        <div class="king-box rank-1">
-            <span class="rank-num" style="color:#ffcc00;">1</span>
-            <div class="king-name" id="k-1" contenteditable="false">SUPREME</div>
-        </div>
-        <div class="king-box">
-            <span class="rank-num" style="color:#cd7f32;">3</span>
-            <div class="king-name" id="k-3" contenteditable="false">EMPTY</div>
+    <div class="header-ui">
+        <div class="logo-text">THE KINGDOM</div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-admin" id="adminBtn" onclick="toggleAdmin()">ADMIN: OFF</button>
+            <button class="btn-save" id="saveBtn" onclick="saveData()">SAVE & LIVE</button>
         </div>
     </div>
 
-    <div class="list-container">
-        <div class="section-header">GOLD SLOTS</div>
-        <div id="gold-list"></div>
-
-        <div class="section-header" style="border-color:#c0c0c0;">SILVER SLOTS</div>
-        <div id="silver-list"></div>
-
-        <div class="section-header" style="border-color:#cd7f32;">BRONZE SLOTS</div>
-        <div id="bronze-list"></div>
+    <div class="stage">
+        <div class="card">
+            <div class="avatar-circle" onclick="pick(this)"><img id="img-k2">🥈</div>
+            <div class="name-tag" id="txt-k2" contenteditable="false">VACANT</div>
+        </div>
+        <div class="card king-card">
+            <div class="avatar-circle" style="width: 100px; height: 100px;" onclick="pick(this)"><img id="img-k1">👑</div>
+            <div class="name-tag" id="txt-k1" contenteditable="false" style="color: #ffcc00;">SUPREME KING</div>
+        </div>
+        <div class="card">
+            <div class="avatar-circle" onclick="pick(this)"><img id="img-k3">🥉</div>
+            <div class="name-tag" id="txt-k3" contenteditable="false">VACANT</div>
+        </div>
     </div>
+
+    <div class="grid-section">
+        <h2 class="grid-title" style="color: #ffcc00;">GOLD DYNASTY</h2>
+        <div class="grid" id="gold-grid"></div>
+        
+        <h2 class="grid-title" style="color: #d7dde8; border-color: #d7dde8;">SILVER DYNASTY</h2>
+        <div class="grid" id="silver-grid"></div>
+
+        <h2 class="grid-title" style="color: #cd7f32; border-color: #cd7f32;">BRONZE LEGION</h2>
+        <div class="grid" id="bronze-grid"></div>
+    </div>
+
+    <input type="file" id="fileInp" onchange="loadImg(event)">
 
     <script>
         let isEdit = false;
+        let selected = null;
 
-        function toggleEdit() {
+        function toggleAdmin() {
             isEdit = !isEdit;
-            document.getElementById('edit-btn').innerText = isEdit ? "EDIT: ON" : "EDIT: OFF";
-            document.getElementById('edit-btn').style.background = isEdit ? "#ff4444" : "#ffcc00";
-            document.getElementById('save-btn').style.display = isEdit ? "block" : "none";
-            document.getElementById('app').classList.toggle('editing');
-            
-            document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = isEdit);
+            document.getElementById('adminBtn').innerText = isEdit ? "ADMIN: ON" : "ADMIN: OFF";
+            document.getElementById('adminBtn').classList.toggle('active');
+            document.getElementById('saveBtn').style.display = isEdit ? "block" : "none";
+            document.getElementById('body').classList.toggle('admin-on');
+
+            document.querySelectorAll('[contenteditable]').forEach(el => {
+                el.contentEditable = isEdit;
+            });
         }
 
-        function build(containerId, count) {
+        function createGrid(containerId, count, cls) {
             const container = document.getElementById(containerId);
             for(let i=1; i<=count; i++) {
-                const row = document.createElement('div');
-                row.className = 'row';
-                row.innerHTML = `<div class="num">#${i}</div><div class="name" id="${containerId}-${i}" contenteditable="false">EMPTY SLOT</div>`;
-                container.appendChild(row);
+                const div = document.createElement('div');
+                div.className = `plate ${cls}`;
+                div.id = `${containerId}-s${i}`;
+                div.innerHTML = `<img id="img-${div.id}"><div class="plate-name" id="txt-${div.id}" contenteditable="false">SLOT ${i}</div>`;
+                div.onclick = (e) => { if(isEdit && e.target.className !== 'plate-name') pick(div); };
+                container.appendChild(div);
             }
+        }
+
+        function pick(el) { if(isEdit) { selected = el; document.getElementById('fileInp').click(); } }
+
+        function loadImg(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = selected.querySelector('img');
+                img.src = ev.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         }
 
         function saveData() {
-            const data = {};
-            document.querySelectorAll('[contenteditable]').forEach(el => data[el.id] = el.innerText);
-            localStorage.setItem('KINGDOM_123_DATA', JSON.stringify(data));
-            alert("Data Saved!");
-            toggleEdit();
+            const data = { txt: {}, img: {} };
+            document.querySelectorAll('[contenteditable]').forEach(el => data.txt[el.id] = el.innerText);
+            document.querySelectorAll('img').forEach(img => {
+                if(img.src.startsWith('data:')) data.img[img.id] = img.src;
+            });
+            localStorage.setItem('KINGDOM_V_FINAL', JSON.stringify(data));
+            alert("Kingdom Saved!");
         }
 
-        function loadData() {
-            build('gold-list', 10);
-            build('silver-list', 15);
-            build('bronze-list', 20);
+        window.onload = () => {
+            createGrid('gold-grid', 10, 'gold');
+            createGrid('silver-grid', 15, 'silver');
+            createGrid('bronze-grid', 20, 'bronze');
 
-            const saved = localStorage.getItem('KINGDOM_123_DATA');
+            const saved = localStorage.getItem('KINGDOM_V_FINAL');
             if(!saved) return;
             const data = JSON.parse(saved);
-            for(let id in data) {
-                if(document.getElementById(id)) document.getElementById(id).innerText = data[id];
+            for(let id in data.txt) if(document.getElementById(id)) document.getElementById(id).innerText = data.txt[id];
+            for(let id in data.img) {
+                const img = document.getElementById(id);
+                if(img) { img.src = data.img[id]; img.style.display = 'block'; }
             }
-        }
-
-        window.onload = loadData;
+        };
     </script>
 </body>
 </html>
