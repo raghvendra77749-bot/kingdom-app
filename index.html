@@ -3,199 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE KINGDOM PRO | RAGHAV EDITZ</title>
+    <title>THE KINGDOM | RAGHAV EDITZ</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Bebas+Neue&family=Poppins:wght@700&display=swap');
         
         :root {
-            --gold: linear-gradient(135deg, #ff9d00 0%, #ffeb3b 50%, #ff9d00 100%);
-            --silver: linear-gradient(135deg, #757f9a 0%, #d7dde8 50%, #757f9a 100%);
-            --bronze: linear-gradient(135deg, #804a00 0%, #cd7f32 50%, #804a00 100%);
-            --neon: #00f2ff;
-            --pink: #ff007f;
+            --gold: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
+            --silver: linear-gradient(135deg, #757f9a, #d7dde8, #757f9a);
+            --bronze: linear-gradient(135deg, #804a00, #cd7f32, #593300);
+            --accent: #ff007f;
         }
 
         body {
-            margin: 0; background: #050505; color: #fff; font-family: 'Poppins', sans-serif;
+            margin: 0; background: #000; color: #fff; font-family: 'Poppins', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* Nav Bar */
-        .header-ui {
-            width: 100%; padding: 15px 0; background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px); border-bottom: 1px solid #333;
-            position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-around; align-items: center;
+        /* Fixed Top Navigation */
+        .nav {
+            position: sticky; top: 0; width: 100%; background: rgba(0,0,0,0.9);
+            padding: 15px 0; display: flex; justify-content: space-around;
+            border-bottom: 1px solid #333; z-index: 1000; backdrop-filter: blur(10px);
         }
 
-        .logo-text { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #ffcc00; }
-
-        .btn-admin {
-            background: transparent; color: #fff; border: 2px solid var(--pink);
-            padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;
-        }
-        .btn-admin.active { background: var(--pink); box-shadow: 0 0 15px var(--pink); }
-
-        .btn-save {
-            background: var(--neon); color: #000; border: none; padding: 10px 20px;
-            border-radius: 5px; font-weight: 900; cursor: pointer; display: none;
+        .btn {
+            background: var(--accent); color: white; border: none; padding: 10px 25px;
+            border-radius: 5px; font-weight: 900; cursor: pointer; font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px; font-size: 1.2rem;
         }
 
-        /* Throne Section */
-        .stage { display: flex; align-items: flex-end; justify-content: center; gap: 15px; margin: 40px 0; width: 95%; }
+        header { margin-top: 40px; text-align: center; }
+        h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: #ffcc00; margin: 0; text-shadow: 0 0 20px rgba(255,204,0,0.4); }
+
+        /* Kings Section (With Photo Option) */
+        .stage { display: flex; align-items: flex-end; justify-content: center; gap: 20px; margin: 50px 0; width: 95%; }
+        .throne {
+            background: #111; border-radius: 20px; padding: 25px 15px;
+            text-align: center; flex: 1; border: 1px solid #333;
+        }
+        .rank-1 { border: 2px solid #ffcc00; transform: scale(1.1); box-shadow: 0 0 30px rgba(255,204,0,0.2); }
         
-        .card {
-            background: #111; border: 1px solid #333; border-radius: 20px; padding: 20px 10px;
-            text-align: center; flex: 1; transition: 0.3s;
+        .p-box {
+            width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px;
+            border: 2px solid #444; overflow: hidden; background: #000; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-        .king-card { border: 2px solid #ffcc00; transform: scale(1.1); }
+        .p-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .p-box span { font-size: 40px; }
 
-        /* UPLOAD BOX FIX */
-        .upload-zone {
-            width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 10px;
-            border: 2px dashed #444; overflow: hidden; background: #000;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            position: relative;
-        }
-        .upload-zone img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .upload-zone span { font-size: 25px; pointer-events: none; }
+        .name-tag { font-family: 'Cinzel', serif; font-size: 1.2rem; outline: none; text-transform: uppercase; }
 
-        .name-tag {
-            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem;
-            min-height: 25px; outline: none; display: block;
-        }
-        .admin-on .name-tag { background: rgba(255,255,255,0.1); border-radius: 4px; }
-
-        /* Grid Slots */
-        .grid-section { width: 92%; max-width: 1200px; margin-bottom: 100px; }
+        /* Slots Grid (No Photos - Just Text) */
+        .container { width: 92%; max-width: 1100px; padding-bottom: 100px; }
         .grid-title { 
-            font-family: 'Cinzel', serif; font-size: 1.2rem; margin: 30px 0 15px; 
-            border-left: 4px solid var(--neon); padding-left: 10px;
+            font-family: 'Bebas Neue', cursive; font-size: 2.2rem; margin: 40px 0 20px; 
+            letter-spacing: 2px; color: #ffcc00; border-bottom: 2px solid #333;
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        
         .plate {
-            height: 75px; border-radius: 10px; display: flex; align-items: center; 
-            padding: 0 10px; cursor: pointer; border: 1px solid rgba(0,0,0,0.5); position: relative;
+            height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem;
+            text-align: center; padding: 0 10px; cursor: default;
         }
-        .plate .mini-logo { width: 55px; height: 55px; object-fit: cover; border-radius: 5px; display: none; margin-right: 10px; border: 1px solid #444; }
-        .plate-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.8rem; outline: none; flex-grow: 1; }
+        
+        /* Font Styles & Center alignment */
+        .plate span { width: 100%; outline: none; }
 
-        .gold { background: var(--gold); color: #3d2b1f; }
-        .silver { background: var(--silver); color: #222; }
-        .bronze { background: var(--bronze); color: #fff; }
+        .gold { background: var(--gold); color: #000; box-shadow: 0 4px 15px rgba(179, 135, 40, 0.4); }
+        .silver { background: var(--silver); color: #000; box-shadow: 0 4px 15px rgba(117, 127, 154, 0.4); }
+        .bronze { background: var(--bronze); color: #fff; box-shadow: 0 4px 15px rgba(128, 74, 0, 0.4); }
 
+        .admin-on .plate span, .admin-on .name-tag { background: rgba(255,255,255,0.1); border-radius: 5px; cursor: text; }
         input[type="file"] { display: none; }
     </style>
 </head>
 <body id="body">
 
-    <div class="header-ui">
-        <div class="logo-text">KINGDOM PRO</div>
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-admin" id="adminBtn" onclick="toggleAdmin()">ADMIN: OFF</button>
-            <button class="btn-save" id="saveBtn" onclick="saveData()">SAVE CHANGES</button>
-        </div>
+    <div class="nav">
+        <button class="btn" id="adminBtn" onclick="toggleAdmin()">ADMIN MODE: OFF</button>
+        <button class="btn" id="saveBtn" style="background:#28a745; display:none;" onclick="saveData()">SAVE & PUBLISH</button>
     </div>
+
+    <header>
+        <h1>THE KINGDOM</h1>
+        <p style="letter-spacing: 5px; color: #555;">RAGHAV EDITZ EXCLUSIVE</p>
+    </header>
 
     <div class="stage">
-        <div class="card">
-            <div class="upload-zone" onclick="openFile(this)"><img id="img-k2"><span>🥈</span></div>
-            <div class="name-tag" id="txt-k2" contenteditable="false">EMPTY</div>
+        <div class="throne">
+            <div class="p-box" onclick="pick(this)"><img id="img-k2"><span>🥈</span></div>
+            <div class="name-tag" id="txt-k2" contenteditable="false">VACANT</div>
         </div>
-        <div class="card king-card">
-            <div class="upload-zone" style="width: 110px; height: 110px;" onclick="openFile(this)"><img id="img-k1"><span>👑</span></div>
-            <div class="name-tag" id="txt-k1" contenteditable="false" style="color: #ffcc00;">SUPREME KING</div>
+        <div class="throne rank-1">
+            <div class="p-box" style="width:130px; height:130px;" onclick="pick(this)"><img id="img-k1"><span>👑</span></div>
+            <div class="name-tag" id="txt-k1" contenteditable="false" style="color:#ffcc00; font-size: 1.5rem;">SUPREME KING</div>
         </div>
-        <div class="card">
-            <div class="upload-zone" onclick="openFile(this)"><img id="img-k3"><span>🥉</span></div>
-            <div class="name-tag" id="txt-k3" contenteditable="false">EMPTY</div>
+        <div class="throne">
+            <div class="p-box" onclick="pick(this)"><img id="img-k3"><span>🥉</span></div>
+            <div class="name-tag" id="txt-k3" contenteditable="false">VACANT</div>
         </div>
     </div>
 
-    <div class="grid-section">
-        <h2 class="grid-title" style="color: #ffcc00;">GOLD DYNASTY</h2>
+    <div class="container">
+        <div class="grid-title">GOLD DYNASTY</div>
         <div class="grid" id="gold-grid"></div>
         
-        <h2 class="grid-title" style="color: #d7dde8; border-color: #d7dde8;">SILVER DYNASTY</h2>
+        <div class="grid-title" style="color:#d7dde8;">SILVER DYNASTY</div>
         <div class="grid" id="silver-grid"></div>
 
-        <h2 class="grid-title" style="color: #cd7f32; border-color: #cd7f32;">BRONZE LEGION</h2>
+        <div class="grid-title" style="color:#cd7f32;">BRONZE LEGION</div>
         <div class="grid" id="bronze-grid"></div>
     </div>
 
-    <input type="file" id="masterFile" accept="image/*" onchange="preview(event)">
+    <input type="file" id="fileInp" onchange="applyImg(event)">
 
     <script>
-        let admin = false;
-        let currentTarget = null;
+        let edit = false;
+        let activeTarget = null;
 
         function toggleAdmin() {
-            admin = !admin;
-            document.getElementById('adminBtn').innerText = admin ? "ADMIN: ON" : "ADMIN: OFF";
-            document.getElementById('adminBtn').classList.toggle('active');
-            document.getElementById('saveBtn').style.display = admin ? "block" : "none";
+            edit = !edit;
+            document.getElementById('adminBtn').innerText = edit ? "ADMIN MODE: ON" : "ADMIN MODE: OFF";
+            document.getElementById('saveBtn').style.display = edit ? "block" : "none";
             document.getElementById('body').classList.toggle('admin-on');
-            document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = admin);
+            document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = edit);
         }
 
-        function openFile(el) {
-            if(!admin) return;
-            currentTarget = el;
-            document.getElementById('masterFile').click();
-        }
-
-        function preview(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const img = currentTarget.querySelector('img');
-                const span = currentTarget.querySelector('span');
-                img.src = ev.target.result;
-                img.style.display = 'block';
-                if(span) span.style.display = 'none'; // Hide Emoji icon
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function createPlates(id, count, cls) {
-            const container = document.getElementById(id);
+        function build(gid, count, cls) {
+            const g = document.getElementById(gid);
             for(let i=1; i<=count; i++) {
-                const div = document.createElement('div');
-                div.className = `plate ${cls}`;
-                div.id = `${id}-s${i}`;
-                div.innerHTML = `<img class="mini-logo" id="img-${div.id}"><div class="plate-name" id="txt-${div.id}" contenteditable="false">PLAYER ${i}</div>`;
-                div.onclick = (e) => { if(admin && e.target.className !== 'plate-name') openFile(div); };
-                container.appendChild(div);
+                const d = document.createElement('div');
+                d.className = `plate ${cls}`;
+                d.innerHTML = `<span id="${gid}-${i}" contenteditable="false">SLOT ${i}</span>`;
+                g.appendChild(d);
             }
         }
 
+        function pick(el) { if(edit) { activeTarget = el; document.getElementById('fileInp').click(); } }
+
+        function applyImg(e) {
+            const f = e.target.files[0];
+            const r = new FileReader();
+            r.onload = (ev) => {
+                const img = activeTarget.querySelector('img');
+                const span = activeTarget.querySelector('span');
+                img.src = ev.target.result;
+                img.style.display = 'block';
+                if(span) span.style.display = 'none';
+            };
+            r.readAsDataURL(f);
+        }
+
         function saveData() {
-            const data = { txt: {}, img: {} };
-            document.querySelectorAll('[contenteditable]').forEach(el => data.txt[el.id] = el.innerText);
-            document.querySelectorAll('img').forEach(img => {
-                if(img.src.startsWith('data:')) data.img[img.id] = img.src;
-            });
-            localStorage.setItem('KINGDOM_V_PRO_LOGOS', JSON.stringify(data));
-            alert("Sab Save Ho Gaya!");
+            const d = { txt: {}, img: {} };
+            document.querySelectorAll('[contenteditable]').forEach(el => d.txt[el.id] = el.innerText);
+            document.querySelectorAll('.p-box img').forEach(i => { if(i.src.includes('data:')) d.img[i.id] = i.src; });
+            
+            try {
+                localStorage.setItem('KINGDOM_FINAL_FIX', JSON.stringify(d));
+                alert("Kingdom Saved Successfully!");
+                toggleAdmin();
+            } catch(e) {
+                alert("Error: Image size too large. Try a smaller photo!");
+            }
         }
 
         window.onload = () => {
-            createPlates('gold-grid', 10, 'gold');
-            createPlates('silver-grid', 15, 'silver');
-            createPlates('bronze-grid', 20, 'bronze');
+            build('gold-grid', 10, 'gold');
+            build('silver-grid', 15, 'silver');
+            build('bronze-grid', 20, 'bronze');
 
-            const saved = localStorage.getItem('KINGDOM_V_PRO_LOGOS');
-            if(!saved) return;
-            const data = JSON.parse(saved);
+            const s = localStorage.getItem('KINGDOM_FINAL_FIX');
+            if(!s) return;
+            const data = JSON.parse(s);
             for(let id in data.txt) if(document.getElementById(id)) document.getElementById(id).innerText = data.txt[id];
             for(let id in data.img) {
-                const img = document.getElementById(id);
-                if(img) { 
-                    img.src = data.img[id]; 
-                    img.style.display = 'block'; 
-                    if(img.parentElement.querySelector('span')) img.parentElement.querySelector('span').style.display = 'none';
+                const i = document.getElementById(id);
+                if(i) { 
+                    i.src = data.img[id]; i.style.display = 'block'; 
+                    if(i.parentElement.querySelector('span')) i.parentElement.querySelector('span').style.display = 'none';
                 }
             }
         };
