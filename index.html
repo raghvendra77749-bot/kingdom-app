@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE KINGDOM | RAGHAV EDITZ</title>
     <style>
-        /* Loading Vampire Wars Font */
         @font-face {
             font-family: 'Vampire';
             src: url('Vampire Wars.ttf');
@@ -14,10 +13,8 @@
         body {
             margin: 0; background: #000; color: #fff; font-family: 'Vampire', sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Nav Bar */
         .nav {
             position: sticky; top: 0; width: 100%; background: rgba(15, 0, 0, 0.95);
             padding: 15px 0; display: flex; justify-content: center; gap: 25px;
@@ -26,54 +23,46 @@
 
         .btn {
             padding: 12px 35px; border: 2px solid #ff0000; border-radius: 5px; 
-            font-weight: bold; cursor: pointer; font-family: 'Vampire', sans-serif; 
+            cursor: pointer; font-family: 'Vampire', sans-serif; 
             text-transform: uppercase; font-size: 1.1rem; transition: 0.3s;
         }
         #edit-btn { background: #000; color: #ff0000; box-shadow: 0 0 10px #ff0000; }
         #save-btn { background: #ff0000; color: #000; display: none; box-shadow: 0 0 20px #ff0000; }
 
-        header { margin: 50px 0; text-align: center; }
-        h1 { font-size: 5.5rem; color: #ff0000; margin: 0; text-shadow: 0 0 30px #ff0000; letter-spacing: 4px; }
+        header { margin: 40px 0; text-align: center; }
+        h1 { font-size: 5rem; color: #ff0000; margin: 0; text-shadow: 0 0 25px #ff0000; }
 
-        /* Throne Section */
-        .stage { display: flex; align-items: flex-end; justify-content: center; gap: 20px; margin-bottom: 70px; width: 95%; }
-        .throne {
-            background: #0a0a0a; border-radius: 10px; padding: 35px 15px;
-            text-align: center; flex: 1; border: 1px solid #333; transition: 0.4s;
-        }
-        .rank-1 { border: 4px solid #ff0000; transform: scale(1.15); box-shadow: 0 0 50px rgba(255, 0, 0, 0.4); }
+        .stage { display: flex; align-items: flex-end; justify-content: center; gap: 20px; margin-bottom: 60px; width: 95%; }
+        .throne { background: #0a0a0a; border-radius: 10px; padding: 30px 10px; text-align: center; flex: 1; border: 1px solid #333; }
+        .rank-1 { border: 4px solid #ff0000; transform: scale(1.1); box-shadow: 0 0 40px rgba(255, 0, 0, 0.4); }
         
         .p-box {
-            width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 25px;
-            border: 4px solid #ff0000; overflow: hidden; background: #000; cursor: pointer;
+            width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px;
+            border: 3px solid #ff0000; overflow: hidden; background: #000; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
         }
         .p-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .p-box span { font-size: 60px; filter: grayscale(1); }
+        .p-box span { font-size: 50px; color: #444; }
 
-        .name-tag { font-size: 2.2rem; outline: none; color: #fff; letter-spacing: 2px; }
+        .name-tag { font-size: 2rem; outline: none; color: #fff; }
 
-        /* Slots Grid - Massive & Clear */
-        .container { width: 95%; max-width: 1400px; padding-bottom: 120px; }
-        .grid-title { 
-            font-size: 3.5rem; margin: 80px 0 40px; 
-            text-align: center; color: #fff; border-bottom: 5px solid #ff0000; display: inline-block; padding: 0 40px;
-        }
+        .container { width: 95%; max-width: 1400px; padding-bottom: 100px; }
+        .grid-title { font-size: 3rem; margin: 60px 0 30px; text-align: center; border-bottom: 4px solid #ff0000; display: inline-block; padding: 0 30px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         
         .plate {
-            height: 130px; border-radius: 5px; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 0 20px; border: 3px solid #fff; position: relative;
+            height: 120px; border-radius: 5px; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 0 20px; border: 2px solid #fff; transition: 0.3s;
         }
         
-        .plate span { width: 100%; outline: none; font-size: 2.2rem; display: block; letter-spacing: 2px; }
+        .plate span { width: 100%; outline: none; font-size: 2.2rem; display: block; }
 
-        .gold { background: linear-gradient(135deg, #d4af37, #f1c40f); color: #000; border-color: #000; }
-        .silver { background: linear-gradient(135deg, #bdc3c7, #95a5a6); color: #000; border-color: #000; }
-        .bronze { background: linear-gradient(135deg, #a0522d, #8b4513); color: #fff; border-color: #fff; }
+        .gold { background: linear-gradient(135deg, #d4af37, #f1c40f); color: #000; }
+        .silver { background: linear-gradient(135deg, #bdc3c7, #95a5a6); color: #000; }
+        .bronze { background: linear-gradient(135deg, #a0522d, #8b4513); color: #fff; }
 
-        .admin-on [contenteditable="true"] { background: rgba(255, 0, 0, 0.2); border: 2px dashed #ff0000; }
+        .admin-on [contenteditable="true"] { background: rgba(255, 255, 255, 0.3); border: 2px dashed #000; }
         input[type="file"] { display: none; }
     </style>
 </head>
@@ -86,31 +75,31 @@
 
     <header>
         <h1>THE KINGDOM</h1>
-        <p style="color: #ff0000; font-size: 1.5rem; letter-spacing: 15px;">RAGHAV EDITZ</p>
+        <p style="color: #ff0000; font-size: 1.3rem; letter-spacing: 12px;">RAGHAV EDITZ</p>
     </header>
 
     <div class="stage">
         <div class="throne">
             <div class="p-box" onclick="pick(this)"><img id="img-k2"><span>2</span></div>
-            <div class="name-tag" id="txt-k2" contenteditable="false">EMPTY</div>
+            <div class="name-tag" id="txt-k2" contenteditable="false">FREE</div>
         </div>
         <div class="throne rank-1">
-            <div class="p-box" style="width:170px; height:170px;" onclick="pick(this)"><img id="img-k1"><span>1</span></div>
-            <div class="name-tag" id="txt-k1" contenteditable="false" style="color:#ff0000;">SUPREME</div>
+            <div class="p-box" style="width:160px; height:160px;" onclick="pick(this)"><img id="img-k1"><span>1</span></div>
+            <div class="name-tag" id="txt-k1" contenteditable="false" style="color:#ff0000;">KING</div>
         </div>
         <div class="throne">
             <div class="p-box" onclick="pick(this)"><img id="img-k3"><span>3</span></div>
-            <div class="name-tag" id="txt-k3" contenteditable="false">EMPTY</div>
+            <div class="name-tag" id="txt-k3" contenteditable="false">FREE</div>
         </div>
     </div>
 
-    <center><div class="grid-title">GOLD</div></center>
+    <center><div class="grid-title">GOLD (500/-)</div></center>
     <div class="container"><div class="grid" id="gold-grid"></div></div>
     
-    <center><div class="grid-title" style="border-color:#bdc3c7;">SILVER</div></center>
+    <center><div class="grid-title" style="border-color:#bdc3c7;">SILVER (200/-)</div></center>
     <div class="container"><div class="grid" id="silver-grid"></div></div>
 
-    <center><div class="grid-title" style="border-color:#a0522d;">BRONZE</div></center>
+    <center><div class="grid-title" style="border-color:#cd7f32;">BRONZE (100/-)</div></center>
     <div class="container"><div class="grid" id="bronze-grid"></div></div>
 
     <input type="file" id="fileInp" accept="image/*" onchange="applyImg(event)">
@@ -127,12 +116,16 @@
             document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = edit);
         }
 
-        function build(gid, count, cls) {
+        function build(gid, count, cls, price) {
             const g = document.getElementById(gid);
             for(let i=1; i<=count; i++) {
                 const d = document.createElement('div');
                 d.className = `plate ${cls}`;
-                d.innerHTML = `<span id="${gid}-${i}" contenteditable="false">PLAYER ${i}</span>`;
+                d.innerHTML = `<span id="${gid}-${i}" contenteditable="false">${price}</span>`;
+                // Logic: Jab edit shuru ho, agar default price hai toh chali jaye
+                d.addEventListener('focusin', (e) => {
+                    if(edit && e.target.innerText === price) e.target.innerText = "";
+                });
                 g.appendChild(d);
             }
         }
@@ -166,22 +159,19 @@
                 const d = { txt: {}, img: {} };
                 document.querySelectorAll('[contenteditable]').forEach(el => d.txt[el.id] = el.innerText);
                 document.querySelectorAll('.p-box img').forEach(i => { if(i.src.includes('data:')) d.img[i.id] = i.src; });
-                
                 localStorage.clear();
-                localStorage.setItem('KINGDOM_VAMPIRE_V2', JSON.stringify(d));
+                localStorage.setItem('KINGDOM_VAMPIRE_FINAL', JSON.stringify(d));
                 alert("KINGDOM UPDATED!");
                 toggleAdmin();
-            } catch(e) {
-                alert("MEMORY FULL: Please refresh or use smaller logos.");
-            }
+            } catch(e) { alert("MEMORY FULL!"); }
         }
 
         window.onload = () => {
-            build('gold-grid', 10, 'gold');
-            build('silver-grid', 15, 'silver');
-            build('bronze-grid', 20, 'bronze');
+            build('gold-grid', 10, 'gold', '500/-');
+            build('silver-grid', 15, 'silver', '200/-');
+            build('bronze-grid', 20, 'bronze', '100/-');
 
-            const s = localStorage.getItem('KINGDOM_VAMPIRE_V2');
+            const s = localStorage.getItem('KINGDOM_VAMPIRE_FINAL');
             if(!s) return;
             const data = JSON.parse(s);
             for(let id in data.txt) if(document.getElementById(id)) document.getElementById(id).innerText = data.txt[id];
